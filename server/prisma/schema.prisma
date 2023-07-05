@@ -16,15 +16,15 @@ model Category {
 }
 
 model Comment {
-  id            String    @id @db.Uuid
-  created_at    DateTime  @default(now()) @db.Timestamp(6)
-  updated_at    DateTime  @default(now()) @db.Timestamp(6)
+  id            String    @id @default(uuid()) @db.Uuid
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
   body          String    @db.VarChar
-  created_by    String    @db.Uuid
-  feedback_id   String    @db.Uuid
+  createdBy     String    @map("created_by") @db.Uuid
+  feedbackId    String    @map("feedback_id") @db.Uuid
   parentid      String?   @db.Uuid
-  users         Users     @relation(fields: [created_by], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  feedback      Feedback  @relation(fields: [feedback_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user          User      @relation(fields: [createdBy], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  feedback      Feedback  @relation(fields: [feedbackId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   comment       Comment?  @relation("commentTocomment", fields: [parentid], references: [id], onDelete: NoAction, onUpdate: NoAction)
   other_comment Comment[] @relation("commentTocomment")
 
@@ -32,17 +32,17 @@ model Comment {
 }
 
 model Feedback {
-  id                                   String    @id @db.Uuid
-  created_at                           DateTime  @default(now()) @db.Timestamp(6)
-  updated_at                           DateTime  @default(now()) @db.Timestamp(6)
-  created_by                           String    @db.Uuid
+  id                                   String    @id @default(uuid()) @db.Uuid
+  createdAt                            DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt                            DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
+  createdBy                            String    @map("created_by") @db.Uuid
   title                                String    @db.VarChar(240)
   detail                               String    @db.VarChar
   category                             String    @db.VarChar(30)
   status                               String    @db.VarChar(30)
   comment                              Comment[]
   category_feedback_categoryTocategory Category  @relation("feedback_categoryTocategory", fields: [category], references: [name], onDelete: NoAction, onUpdate: NoAction)
-  users                                Users     @relation(fields: [created_by], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user                                 User      @relation(fields: [createdBy], references: [id], onDelete: Cascade, onUpdate: NoAction)
   status_feedback_statusTostatus       Status    @relation("feedback_statusTostatus", fields: [status], references: [name], onDelete: NoAction, onUpdate: NoAction)
   upvote                               Upvote[]
 
@@ -50,9 +50,9 @@ model Feedback {
 }
 
 model Role {
-  id        String     @id @db.Uuid
-  name      String     @db.VarChar(50)
-  user_role UserRole[]
+  id       String     @id @default(uuid()) @db.Uuid
+  name     String     @db.VarChar(50)
+  userRole UserRole[]
 
   @@map("role")
 }
@@ -65,37 +65,37 @@ model Status {
 }
 
 model Upvote {
-  user_id     String   @db.Uuid
-  feedback_id String   @db.Uuid
-  created_at  DateTime @default(now()) @db.Timestamp(6)
-  feedback    Feedback @relation(fields: [feedback_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  users       Users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  userId     String   @map("user_id") @db.Uuid
+  feedbackId String   @map("feedback_id") @db.Uuid
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  feedback   Feedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@id([user_id, feedback_id])
+  @@id([userId, feedbackId])
   @@map("upvote")
 }
 
 model UserRole {
-  user_id String @db.Uuid
-  role_id String @db.Uuid
-  role    Role   @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  users   Users  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  userId String @map("user_id") @db.Uuid
+  roleId String @map("role_id") @db.Uuid
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@id([user_id, role_id])
+  @@id([userId, roleId])
   @@map("user_role")
 }
 
-model Users {
-  id         String     @id @db.Uuid
-  created_at DateTime   @default(now()) @db.Timestamp(6)
-  updated_at DateTime   @default(now()) @db.Timestamp(6)
-  username   String     @unique @db.VarChar(30)
-  first_name String     @db.VarChar(30)
-  last_name  String     @db.VarChar(30)
-  comment    Comment[]
-  feedback   Feedback[]
-  upvote     Upvote[]
-  user_role  UserRole[]
+model User {
+  id        String     @id @default(uuid()) @db.Uuid
+  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime   @default(now()) @map("updated_at") @db.Timestamp(6)
+  username  String     @unique @db.VarChar(30)
+  firstName String     @map("first_name") @db.VarChar(30)
+  lastName  String     @map("last_name") @db.VarChar(30)
+  comment   Comment[]
+  feedback  Feedback[]
+  upvote    Upvote[]
+  userRole  UserRole[]
 
   @@map("users")
 }
