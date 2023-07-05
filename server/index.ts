@@ -58,10 +58,6 @@ passport.use(
           return cb(null, false);
         }
 
-        console.log('User', user);
-        console.log(password);
-        console.log(user.salt);
-
         crypto.pbkdf2(
           password,
           user.salt,
@@ -69,8 +65,6 @@ passport.use(
           64,
           'sha512',
           async (err, hashedPassword) => {
-            console.log(hashedPassword.toString('hex'));
-
             if (hashedPassword.toString('hex') === user.password) {
               console.log('User authenticated');
               return cb(null, user);
@@ -152,7 +146,7 @@ app.post('/signup', function (req, res, next: NextFunction) {
             name: 'user',
           },
         });
-        console.log(userRole?.id);
+
         const user = await prisma.user.create({
           data: {
             username: req.body.username,

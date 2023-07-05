@@ -57,11 +57,7 @@ passport_1.default.use(new passport_local_1.Strategy(function verify(username, p
         if (!user) {
             return cb(null, false);
         }
-        console.log('User', user);
-        console.log(password);
-        console.log(user.salt);
         crypto_1.default.pbkdf2(password, user.salt, 1000, 64, 'sha512', (err, hashedPassword) => __awaiter(this, void 0, void 0, function* () {
-            console.log(hashedPassword.toString('hex'));
             if (hashedPassword.toString('hex') === user.password) {
                 console.log('User authenticated');
                 return cb(null, user);
@@ -125,7 +121,6 @@ app.post('/signup', function (req, res, next) {
                         name: 'user',
                     },
                 });
-                console.log(userRole === null || userRole === void 0 ? void 0 : userRole.id);
                 const user = yield prisma.user.create({
                     data: {
                         username: req.body.username,
