@@ -24,6 +24,7 @@ async function seed() {
     update: {},
     create: {
       username: 'unhommequidort',
+      password: 'password',
       firstName: 'Matthew',
       lastName: 'Lyons',
       userRole: {
@@ -39,6 +40,7 @@ async function seed() {
     update: {},
     create: {
       username: 'NYHeraldTribune',
+      password: 'password',
       firstName: 'Jean',
       lastName: 'Seberg',
       userRole: {
