@@ -23,7 +23,7 @@ async function seed() {
     where: { username: '@unhommequidort' },
     update: {},
     create: {
-      username: '@unhommequidort',
+      username: 'unhommequidort',
       firstName: 'Matthew',
       lastName: 'Lyons',
       userRole: {
@@ -35,10 +35,10 @@ async function seed() {
   });
 
   const jean = await prisma.user.upsert({
-    where: { username: '@NYHeraldTrubune' },
+    where: { username: '@NYHeraldTribune' },
     update: {},
     create: {
-      username: '@NYHeraldTrubune',
+      username: 'NYHeraldTribune',
       firstName: 'Jean',
       lastName: 'Seberg',
       userRole: {
