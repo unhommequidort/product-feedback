@@ -58,6 +58,9 @@ passport_1.default.use(new passport_local_1.Strategy(function verify(username, p
             return cb(null, false);
         }
         crypto_1.default.pbkdf2(password, user.salt, 1000, 64, 'sha512', (err, hashedPassword) => __awaiter(this, void 0, void 0, function* () {
+            if (err) {
+                return cb(err);
+            }
             if (hashedPassword.toString('hex') === user.password) {
                 console.log('User authenticated');
                 return cb(null, user);

@@ -65,6 +65,9 @@ passport.use(
           64,
           'sha512',
           async (err, hashedPassword) => {
+            if (err) {
+              return cb(err);
+            }
             if (hashedPassword.toString('hex') === user.password) {
               console.log('User authenticated');
               return cb(null, user);
