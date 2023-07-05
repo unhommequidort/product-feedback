@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Category {
+  name                                 String     @id @db.VarChar(50)
+  feedback_feedback_categoryTocategory Feedback[] @relation("feedback_categoryTocategory")
+
+  @@map("category")
+}
+
+model Comment {
+  id            String    @id @db.Uuid
+  created_at    DateTime  @default(now()) @db.Timestamp(6)
+  updated_at    DateTime  @default(now()) @db.Timestamp(6)
+  body          String    @db.VarChar
+  created_by    String    @db.Uuid
+  feedback_id   String    @db.Uuid
+  parentid      String?   @db.Uuid
+  users         Users     @relation(fields: [created_by], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  feedback      Feedback  @relation(fields: [feedback_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  comment       Comment?  @relation("commentTocomment", fields: [parentid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_comment Comment[] @relation("commentTocomment")
+
+  @@map("comment")
+}
+
+model Feedback {
+  id                                   String    @id @db.Uuid
+  created_at                           DateTime  @default(now()) @db.Timestamp(6)
+  updated_at                           DateTime  @default(now()) @db.Timestamp(6)
+  created_by                           String    @db.Uuid
+  title                                String    @db.VarChar(240)
+  detail                               String    @db.VarChar
+  category                             String    @db.VarChar(30)
+  status                               String    @db.VarChar(30)
+  comment                              Comment[]
+  category_feedback_categoryTocategory Category  @relation("feedback_categoryTocategory", fields: [category], references: [name], onDelete: NoAction, onUpdate: NoAction)
+  users                                Users     @relation(fields: [created_by], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  status_feedback_statusTostatus       Status    @relation("feedback_statusTostatus", fields: [status], references: [name], onDelete: NoAction, onUpdate: NoAction)
+  upvote                               Upvote[]
+
+  @@map("feedback")
+}
+
+model Role {
+  id        String     @id @db.Uuid
+  name      String     @db.VarChar(50)
+  user_role UserRole[]
+
+  @@map("role")
+}
+
+model Status {
+  name                             String     @id @db.VarChar(30)
+  feedback_feedback_statusTostatus Feedback[] @relation("feedback_statusTostatus")
+
+  @@map("status")
+}
+
+model Upvote {
+  user_id     String   @db.Uuid
+  feedback_id String   @db.Uuid
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  feedback    Feedback @relation(fields: [feedback_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users       Users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, feedback_id])
+  @@map("upvote")
+}
+
+model UserRole {
+  user_id String @db.Uuid
+  role_id String @db.Uuid
+  role    Role   @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users   Users  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, role_id])
+  @@map("user_role")
+}
+
+model Users {
+  id         String     @id @db.Uuid
+  created_at DateTime   @default(now()) @db.Timestamp(6)
+  updated_at DateTime   @default(now()) @db.Timestamp(6)
+  username   String     @unique @db.VarChar(30)
+  first_name String     @db.VarChar(30)
+  last_name  String     @db.VarChar(30)
+  comment    Comment[]
+  feedback   Feedback[]
+  upvote     Upvote[]
+  user_role  UserRole[]
+
+  @@map("users")
+}
