@@ -14,6 +14,7 @@ export const signJwt = (
   return jwt.sign(payload, privateKey, {
     ...(options && options),
     algorithm: 'RS256',
+    allowInsecureKeySizes: true,
   });
 };
 

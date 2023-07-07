@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
   cookiesOptions.secure = true;
 }
 
-const accesTokenCookieOptions: CookieOptions = {
+const accessTokenCookieOptions: CookieOptions = {
   ...cookiesOptions,
   expires: new Date(
     Date.now() + config.get<number>('accessTokenExpiresIn') * 60 * 1000
@@ -85,21 +85,36 @@ export const loginUserHandler = async (
 ) => {
   try {
     const { email, password } = req.body;
+
     const user = await findUniqueUser(
       { email: email.toLowerCase() },
       { id: true, email: true, verified: true, password: true }
     );
 
+    if (!user) {
+      return next(new AppError(400, 'Invalid email or password'));
+    }
+
+    // Check if user is verified
+    if (!user.verified) {
+      return next(
+        new AppError(
+          401,
+          'You are not verified, please verify your email to login'
+        )
+      );
+    }
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return next(new AppError(400, 'Invalid email or password'));
     }
 
-    // Sign tokens
+    // Sign Tokens
     const { access_token, refresh_token } = await signTokens(user);
-    res.cookie('access_token', access_token, accesTokenCookieOptions);
+    res.cookie('access_token', access_token, accessTokenCookieOptions);
     res.cookie('refresh_token', refresh_token, refreshTokenCookieOptions);
     res.cookie('logged_in', true, {
-      ...accesTokenCookieOptions,
+      ...accessTokenCookieOptions,
       httpOnly: false,
     });
 
@@ -107,7 +122,9 @@ export const loginUserHandler = async (
       status: 'success',
       access_token,
     });
-  } catch (error: unknown) {}
+  } catch (err: any) {
+    next(err);
+  }
 };
 
 export const refreshAccessTokenHandler = async (
@@ -156,9 +173,9 @@ export const refreshAccessTokenHandler = async (
     });
 
     // Add cookies
-    res.cookie('access_token', access_token, accesTokenCookieOptions);
+    res.cookie('access_token', access_token, accessTokenCookieOptions);
     res.cookie('logged_in', true, {
-      ...accesTokenCookieOptions,
+      ...accessTokenCookieOptions,
       httpOnly: false,
     });
 
