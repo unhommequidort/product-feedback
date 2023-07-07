@@ -76,3 +76,35 @@ export const registerUserHandler = async (
     next(error);
   }
 };
+
+export const loginUserHandler = async (
+  req: Request<{}, {}, LoginUserInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, password } = req.body;
+    const user = await findUniqueUser(
+      { email: email.toLowerCase() },
+      { id: true, email: true, verified: true, password: true }
+    );
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return next(new AppError(400, 'Invalid email or password'));
+    }
+
+    // Sign tokens
+    const { access_token, refresh_token } = await signTokens(user);
+    res.cookie('access_token', access_token, accesTokenCookieOptions);
+    res.cookie('refresh_token', refresh_token, refreshTokenCookieOptions);
+    res.cookie('logged_in', true, {
+      ...accesTokenCookieOptions,
+      httpOnly: false,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      access_token,
+    });
+  } catch (error: unknown) {}
+};
