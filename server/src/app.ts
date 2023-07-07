@@ -38,7 +38,7 @@ async function bootstrap() {
   }
 
   // ROUTES
-  app.use('api/auth', authRouter);
+  app.use('/api/auth', authRouter);
   app.use('/api/users', userRouter);
 
   // Testing
