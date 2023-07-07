@@ -53,6 +53,7 @@ export const registerUserHandler = async (
 
     const user = await createUser({
       name: req.body.name,
+      username: req.body.username,
       email: req.body.email.toLowerCase(),
       password: hashedPassword,
       verificationCode,
