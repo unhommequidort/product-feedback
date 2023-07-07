@@ -16,6 +16,10 @@ const prisma = new PrismaClient();
 const app = express();
 
 async function bootstrap() {
+  // TEMPLATE ENGINE
+  app.set('view engine', 'pug');
+  app.set('views', `${__dirname}/views`);
+
   // MIDDLEWARE
 
   // Body Parser
