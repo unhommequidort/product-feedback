@@ -1,17 +1,23 @@
 import crypto from 'crypto';
 import { CookieOptions, NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { LoginUserInput, RegisterUserInput } from '../schemas/user.schema';
+import {
+  LoginUserInput,
+  RegisterUserInput,
+  VerifyEmailInput,
+} from '../schemas/user.schema';
 import {
   createUser,
   findUniqueUser,
   signTokens,
+  updateUser,
 } from '../services/user.service';
 import { Prisma } from '@prisma/client';
 import config from 'config';
 import AppError from '../utils/appError';
 import redisClient from '../utils/connectRedis';
 import { signJwt, verifyJwt } from '../utils/jwt';
+import Email from '../utils/email';
 
 const cookiesOptions: CookieOptions = {
   httpOnly: true,
@@ -59,22 +65,35 @@ export const registerUserHandler = async (
       verificationCode,
     });
 
-    res.status(201).json({
-      status: 'success',
-      data: {
-        user,
-      },
-    });
-  } catch (error: unknown) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === 'P2002') {
+    const redirectUrl = `${config.get<string>(
+      'origin'
+    )}/verifyemail/${verifyCode}`;
+    try {
+      await new Email(user, redirectUrl).sendVerificationCode();
+      await updateUser({ id: user.id }, { verificationCode });
+
+      res.status(201).json({
+        status: 'success',
+        message:
+          'An email with a verification code has been sent to your email',
+      });
+    } catch (error) {
+      await updateUser({ id: user.id }, { verificationCode: null });
+      return res.status(500).json({
+        status: 'error',
+        message: 'There was an error sending email, please try again',
+      });
+    }
+  } catch (err: any) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      if (err.code === 'P2002') {
         return res.status(409).json({
           status: 'fail',
-          message: 'Email already exists, please use another email address',
+          message: 'Email already exist, please use another email address',
         });
       }
     }
-    next(error);
+    next(err);
   }
 };
 
@@ -209,5 +228,41 @@ export const logoutUserHandler = async (
     });
   } catch (error) {
     next(error);
+  }
+};
+
+export const verifyEmailHandler = async (
+  req: Request<VerifyEmailInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const verificationCode = crypto
+      .createHash('sha256')
+      .update(req.params.verificationCode)
+      .digest('hex');
+
+    //  If the user doesn’t exist in the database then it means the verification code provided is invalid.
+    const user = await updateUser(
+      { verificationCode },
+      { verified: true, verificationCode: null },
+      { email: true }
+    );
+
+    if (!user) {
+      return next(new AppError(401, 'Could not verify email'));
+    }
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Email verified successfully',
+    });
+  } catch (error: any) {
+    if (error.code === 'P2025') {
+      return res.status(403).json({
+        status: 'fail',
+        message: 'Verification code is invalid or user does not exist',
+      });
+    }
   }
 };

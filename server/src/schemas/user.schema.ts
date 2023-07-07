@@ -47,4 +47,11 @@ export type RegisterUserInput = Omit<
   'passwordConfirm'
 >;
 
+export const verifyEmailSchema = object({
+  params: object({
+    verificationCode: string(),
+  }),
+});
+
+export type VerifyEmailInput = TypeOf<typeof verifyEmailSchema>['params'];
 export type LoginUserInput = TypeOf<typeof loginUserSchema>['body'];
