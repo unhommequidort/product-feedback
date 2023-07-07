@@ -108,3 +108,65 @@ export const loginUserHandler = async (
     });
   } catch (error: unknown) {}
 };
+
+export const refreshAccessTokenHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const refresh_token = req.cookies.refresh_token;
+
+    const message = 'Could not refresh access token';
+
+    if (!refresh_token) {
+      return next(new AppError(403, message));
+    }
+
+    // Validate refresh token
+    const decoded = verifyJwt<{ sub: string }>(
+      refresh_token,
+      'refreshTokenPublicKey'
+    );
+
+    if (!decoded) {
+      return next(new AppError(403, message));
+    }
+
+    // Check if user has a valid session
+    const session = await redisClient.get(decoded.sub);
+
+    if (!session) {
+      return next(new AppError(403, message));
+    }
+
+    // Check if user exists
+    const user = await findUniqueUser({
+      id: JSON.parse(session).id,
+    });
+
+    if (!user) {
+      return next(new AppError(403, message));
+    }
+
+    // Sign new access token
+    const access_token = signJwt({ sub: user.id }, 'accessTokenPrivateKey', {
+      expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
+    });
+
+    // Add cookies
+    res.cookie('access_token', access_token, accesTokenCookieOptions);
+    res.cookie('logged_in', true, {
+      ...accesTokenCookieOptions,
+      httpOnly: false,
+    });
+
+    // Send the response
+    res.status(200).json({
+      status: 'success',
+      access_token,
+    });
+  } catch (error: unknown) {
+    next(error);
+  }
+};

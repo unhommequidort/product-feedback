@@ -12,7 +12,7 @@ const redisClient = createClient({
 const connectRedis = async () => {
   try {
     await redisClient.connect();
-    redisClient.set('try', 'Hello welcome to Express with Prisma');
+    redisClient.set('try', 'Hello welcome to Product Feedback App');
   } catch (error) {
     console.error(error);
     setTimeout(connectRedis, 5000);
