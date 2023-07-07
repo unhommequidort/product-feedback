@@ -11,10 +11,12 @@ export const requireUser = (
 
     if (!user) {
       return next(
-        new AppError(401, 'Session has expired or user does not exist')
+        new AppError(400, `Session has expired or user doesn't exist`)
       );
     }
-  } catch (error) {
-    next(error);
+
+    next();
+  } catch (err: any) {
+    next(err);
   }
 };
