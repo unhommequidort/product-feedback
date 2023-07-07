@@ -4,7 +4,7 @@ import config from 'config';
 // Sign Access or Refresh Token
 export const signJwt = (
   payload: Object,
-  keyName: 'accessTokenPrivateKey' | 'refreshTokenPrivaeKey',
+  keyName: 'accessTokenPrivateKey' | 'refreshTokenPrivateKey',
   options: SignOptions
 ) => {
   const privateKey = Buffer.from(
