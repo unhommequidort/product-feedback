@@ -68,7 +68,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 - [Vitest](https://vitest.dev) - Unit testing framework
 - [React Testing Library](https://testing-library.com) Testing utilities for React
 - [TailwindCSS](https://tailwindcss.com) - Utility-first CSS framework
-- [React Query](https://tanstackcom/query/latest/) - Server state management
+- [Redux Toolkit](https://redux-toolkit.js.org/) - State management library
+- [RTK Query](https://redux-toolkit.js.org/rtk-query/overview) - Data fetching and caching tool
 
 ### What I learned
 
