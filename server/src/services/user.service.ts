@@ -3,13 +3,26 @@ import config from 'config';
 import { signJwt } from '../utils/jwt';
 import redisClient from '../utils/connectRedis';
 
-export const excludedFields = ['password', 'verified', 'verificationCode'];
+export const excludedFields = [
+  'password',
+  'verified',
+  'verificationCode',
+  'passwordResetAt',
+  'passwordResetToken',
+];
 
 const prisma = new PrismaClient();
 
 export const createUser = async (input: Prisma.UserCreateInput) => {
   return (await prisma.user.create({
     data: input,
+  })) as User;
+};
+
+export const findUser = async (where: any, select?: Prisma.UserSelect) => {
+  return (await prisma.user.findFirst({
+    where: where as User,
+    select,
   })) as User;
 };
 
