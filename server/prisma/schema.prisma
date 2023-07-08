@@ -70,23 +70,26 @@ model Upvote {
 }
 
 model User {
-  id               String        @id @default(uuid()) @db.Uuid
-  createdAt        DateTime      @default(now()) @map("created_at")
-  updatedAt        DateTime      @default(now()) @map("updated_at")
-  username         String        @unique @db.VarChar(255)
-  email            String        @unique @db.VarChar
-  photo            String?       @default("default.png") @db.VarChar
-  verified         Boolean?      @default(false)
-  password         String        @db.VarChar
-  role             RoleEnumType? @default(user)
-  verificationCode String?       @unique @map("verification_code") @db.VarChar
-  name             String        @map("name") @db.VarChar(255)
-  comment          Comment[]
-  feedback         Feedback[]
-  upvote           Upvote[]
+  id                 String        @id @default(uuid()) @db.Uuid
+  createdAt          DateTime      @default(now()) @map("created_at")
+  updatedAt          DateTime      @default(now()) @map("updated_at")
+  username           String        @unique @db.VarChar(255)
+  email              String        @unique @db.VarChar
+  photo              String?       @default("default.png") @db.VarChar
+  verified           Boolean?      @default(false)
+  password           String        @db.VarChar
+  role               RoleEnumType? @default(user)
+  verificationCode   String?       @unique @map("verification_code") @db.VarChar
+  name               String        @map("name") @db.VarChar(255)
+  provider           String?
+  passwordResetToken String?
+  passwordResetAt    DateTime?
+  comment            Comment[]
+  feedback           Feedback[]
+  upvote             Upvote[]
 
-  @@unique([email, verificationCode])
-  @@index([email, verificationCode])
+  @@unique([email, verificationCode, passwordResetToken])
+  @@index([email, verificationCode, passwordResetToken])
   @@map("users")
 }
 
