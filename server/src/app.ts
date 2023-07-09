@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import { PrismaClient } from '@prisma/client';
 import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
+import feedbackRouter from './routes/feedback.routes';
 import AppError from './utils/appError';
 import validateEnv from './utils/validateEnv';
 
@@ -44,6 +45,7 @@ async function bootstrap() {
   // ROUTES
   app.use('/api/auth', authRouter);
   app.use('/api/users', userRouter);
+  app.use('/api/feedback', feedbackRouter);
 
   // Testing
   app.get('/api/healthchecker', (_, res: Response) => {

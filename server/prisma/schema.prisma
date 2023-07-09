@@ -1,13 +1,11 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["postgresqlExtensions"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")
-  directUrl  = env("DIRECT_URL")
-  extensions = [pgcrypto]
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Category {
@@ -41,7 +39,7 @@ model Feedback {
   title                                String    @db.VarChar(240)
   detail                               String    @db.VarChar
   category                             String    @db.VarChar(30)
-  status                               String    @db.VarChar(30)
+  status                               String    @default("Suggestion") @db.VarChar(30)
   comment                              Comment[]
   category_feedback_categoryTocategory Category  @relation("feedback_categoryTocategory", fields: [category], references: [name], onDelete: NoAction, onUpdate: NoAction)
   user                                 User      @relation(fields: [createdBy], references: [id], onDelete: Cascade, onUpdate: NoAction)
