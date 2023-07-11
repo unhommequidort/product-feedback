@@ -3,7 +3,11 @@ import {
   createFeedbackInput,
   updateFeedbackInput,
 } from '../schemas/feedback.schema';
-import { createFeedback, updateFeedback } from '../services/feedback.service';
+import {
+  createFeedback,
+  getAllFeedback,
+  updateFeedback,
+} from '../services/feedback.service';
 
 export const createFeedbackHandler = async (
   req: Request<{}, {}, createFeedbackInput>,
@@ -37,6 +41,23 @@ export const createFeedbackHandler = async (
   }
 };
 
+export const getAllFeedbackHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const feedbacks = await getAllFeedback();
+
+    res.status(200).json({
+      status: 'success',
+      data: feedbacks,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const updateFeedbackHandler = async (
   req: Request<{ id: string }, {}, updateFeedbackInput>,
   res: Response,
@@ -55,20 +76,15 @@ export const updateFeedbackHandler = async (
         },
       },
       status_feedback_statusTostatus: {
-        connect: {
-          name: status,
+        connectOrCreate: {
+          where: {
+            name: status,
+          },
+          create: {
+            name: status!,
+          },
         },
       },
-      // category_feedback_categoryTocategory: {
-      //   connect: {
-      //     name: category,
-      //   },
-      // },
-      // status_feedback_statusTostatus: {
-      //   connect: {
-      //     name: status,
-      //   },
-      // },
     });
 
     res.status(200).json({
