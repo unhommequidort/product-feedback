@@ -121,7 +121,6 @@ export const getFeedbackByStatusHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.query);
   try {
     const status = req.query.s;
     const feedbacks = await getFeedbackByStatus(status);
