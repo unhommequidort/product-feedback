@@ -6,6 +6,7 @@ import {
 import {
   createFeedback,
   getAllFeedback,
+  getFeedbackById,
   updateFeedback,
 } from '../services/feedback.service';
 
@@ -52,6 +53,24 @@ export const getAllFeedbackHandler = async (
     res.status(200).json({
       status: 'success',
       data: feedbacks,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getFeedbackByIdHandler = async (
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const feedbackId = req.params.id;
+    const feedback = await getFeedbackById(feedbackId);
+
+    res.status(200).json({
+      status: 'success',
+      data: feedback,
     });
   } catch (error) {
     next(error);
