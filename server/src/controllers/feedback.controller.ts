@@ -5,6 +5,7 @@ import {
 } from '../schemas/feedback.schema';
 import {
   createFeedback,
+  deleteFeedback,
   getAllFeedback,
   getFeedbackById,
   getFeedbackByStatus,
@@ -78,6 +79,24 @@ export const getFeedbackByIdHandler = async (
   }
 };
 
+export const getFeedbackByStatusHandler = async (
+  req: Request<{}, {}, {}, { s: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const status = req.query.s;
+    const feedbacks = await getFeedbackByStatus(status);
+
+    res.status(200).json({
+      status: 'success',
+      data: feedbacks,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const updateFeedbackHandler = async (
   req: Request<{ id: string }, {}, updateFeedbackInput>,
   res: Response,
@@ -116,20 +135,21 @@ export const updateFeedbackHandler = async (
   }
 };
 
-export const getFeedbackByStatusHandler = async (
-  req: Request<{}, {}, {}, { s: string }>,
+interface DeleteFeedbackReqQuery {
+  id: string;
+}
+
+export const deleteFeedbackHandler = async (
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const status = req.query.s;
-    const feedbacks = await getFeedbackByStatus(status);
-
+    const id = req.params.id;
+    const feedback = await deleteFeedback(id);
     res.status(200).json({
       status: 'success',
-      data: feedbacks,
+      data: feedback,
     });
-  } catch (error) {
-    next(error);
-  }
+  } catch (error) {}
 };
