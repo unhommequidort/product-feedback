@@ -6,6 +6,7 @@ import {
   createFeedbackHandler,
   getAllFeedbackHandler,
   getFeedbackByIdHandler,
+  getFeedbackByStatusHandler,
   updateFeedbackHandler,
 } from '../controllers/feedback.controller';
 
@@ -13,9 +14,10 @@ const router = express.Router();
 
 router.use(deserializeUser, requireUser);
 
+router.get('/status', getFeedbackByStatusHandler);
 router.post('/create', createFeedbackHandler);
-router.get('/', getAllFeedbackHandler);
-router.get('/:id', getFeedbackByIdHandler);
 router.patch('/update/:id', updateFeedbackHandler);
+router.get('/:id', getFeedbackByIdHandler);
+router.get('/', getAllFeedbackHandler);
 
 export default router;
