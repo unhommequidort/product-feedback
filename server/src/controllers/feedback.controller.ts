@@ -135,10 +135,6 @@ export const updateFeedbackHandler = async (
   }
 };
 
-interface DeleteFeedbackReqQuery {
-  id: string;
-}
-
 export const deleteFeedbackHandler = async (
   req: Request<{ id: string }>,
   res: Response,
@@ -151,5 +147,7 @@ export const deleteFeedbackHandler = async (
       status: 'success',
       data: feedback,
     });
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
