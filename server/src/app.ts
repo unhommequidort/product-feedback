@@ -9,6 +9,7 @@ import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
 import feedbackRouter from './routes/feedback.routes';
 import categoryRouter from './routes/category.routes';
+import statusRouter from './routes/status.routes';
 import upvoteRouter from './routes/upvote.routes';
 import AppError from './utils/appError';
 import validateEnv from './utils/validateEnv';
@@ -50,6 +51,7 @@ async function bootstrap() {
   app.use('/api/feedback', feedbackRouter);
   app.use('/api/category', categoryRouter);
   app.use('/api/upvote', upvoteRouter);
+  app.use('/api/status', statusRouter);
 
   // Testing
   app.get('/api/healthchecker', (_, res: Response) => {

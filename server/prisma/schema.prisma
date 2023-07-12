@@ -10,6 +10,7 @@ datasource db {
 
 model Category {
   name                                 String     @id @db.VarChar(50)
+  sort                                 Int        @default(0)
   feedback_feedback_categoryTocategory Feedback[] @relation("feedback_categoryTocategory")
 
   @@map("category")
@@ -51,6 +52,7 @@ model Feedback {
 
 model Status {
   name                             String     @id @db.VarChar(30)
+  sort                             Int        @default(0)
   feedback_feedback_statusTostatus Feedback[] @relation("feedback_statusTostatus")
 
   @@map("status")

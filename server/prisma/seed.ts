@@ -11,18 +11,23 @@ async function seed() {
     data: [
       {
         name: 'UI',
+        sort: 1000,
       },
       {
         name: 'UX',
+        sort: 2000,
       },
       {
         name: 'Enhancement',
+        sort: 3000,
       },
       {
         name: 'Bug',
+        sort: 4000,
       },
       {
         name: 'Feature',
+        sort: 5000,
       },
     ],
   });
@@ -31,15 +36,19 @@ async function seed() {
     data: [
       {
         name: 'Suggestion',
+        sort: 1000,
       },
       {
         name: 'Planned',
+        sort: 2000,
       },
       {
         name: 'In-Progress',
+        sort: 3000,
       },
       {
         name: 'Live',
+        sort: 4000,
       },
     ],
   });
