@@ -9,6 +9,9 @@ export const getAllActiveStatuses = async () => {
         not: 'Suggestion',
       },
     },
+    orderBy: {
+      sort: 'asc',
+    },
   })) as Status[];
 };
 
