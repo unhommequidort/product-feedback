@@ -19,16 +19,19 @@ export const addUpvote = async (feedbackId: string, userId: string) => {
     },
   });
 
+  // if user already upvoted, throw error
   if (upvote) {
     throw new Error('User already upvoted this feedback');
   }
 
-  (await prisma.upvote.create({
+  // if user has not upvoted, create upvote
+  await prisma.upvote.create({
     data: {
       userId,
       feedbackId,
     },
-  })) as Upvote;
+  });
 
+  // return upvote count
   return getUpvoteCountByFeedbackId(feedbackId);
 };
