@@ -8,8 +8,41 @@ export const createFeedback = async (input: Prisma.FeedbackCreateInput) => {
   })) as Feedback;
 };
 
-export const getAllFeedback = async () => {
-  return (await prisma.feedback.findMany()) as Feedback[];
+const findFeedback = async (key: string, order: string) => {
+  return (await prisma.feedback.findMany({
+    orderBy: {
+      [key]: {
+        _count: order,
+      },
+    },
+    include: {
+      _count: {
+        select: { upvote: true, comment: true },
+      },
+    },
+  })) as Feedback[];
+};
+
+// GetAllFeedback takes in an orderBy string and returns an array of feedback
+export const getAllFeedback = async (orderBy: string) => {
+  switch (orderBy) {
+    case 'upvoteAsc':
+      return findFeedback('upvote', 'asc');
+    case 'upvoteDesc':
+      return findFeedback('upvote', 'desc');
+    case 'commentAsc':
+      return findFeedback('comment', 'asc');
+    case 'commentDesc':
+      return findFeedback('comment', 'desc');
+    default:
+      return (await prisma.feedback.findMany({
+        include: {
+          _count: {
+            select: { upvote: true, comment: true },
+          },
+        },
+      })) as Feedback[];
+  }
 };
 
 export const getFeedbackById = async (id: string) => {

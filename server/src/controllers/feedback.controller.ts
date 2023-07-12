@@ -11,6 +11,7 @@ import {
   getFeedbackByStatus,
   updateFeedback,
 } from '../services/feedback.service';
+import { orderBy } from 'lodash';
 
 export const createFeedbackHandler = async (
   req: Request<{}, {}, createFeedbackInput>,
@@ -45,12 +46,13 @@ export const createFeedbackHandler = async (
 };
 
 export const getAllFeedbackHandler = async (
-  req: Request,
+  req: Request<{}, {}, {}, { orderBy: string }>,
   res: Response,
   next: NextFunction
 ) => {
+  const orderBy = req.query.orderBy;
   try {
-    const feedbacks = await getAllFeedback();
+    const feedbacks = await getAllFeedback(orderBy);
 
     res.status(200).json({
       status: 'success',

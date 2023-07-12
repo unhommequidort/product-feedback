@@ -13,12 +13,22 @@ import {
 
 const router = express.Router();
 
-router.use(deserializeUser, requireUser);
+// router.use(deserializeUser, requireUser);
 
 router.get('/status', getFeedbackByStatusHandler);
-router.post('/create', createFeedbackHandler);
-router.patch('/update/:id', updateFeedbackHandler);
-router.delete('/delete/:id', deleteFeedbackHandler);
+router.post('/create', deserializeUser, requireUser, createFeedbackHandler);
+router.patch(
+  '/update/:id',
+  deserializeUser,
+  requireUser,
+  updateFeedbackHandler
+);
+router.delete(
+  '/delete/:id',
+  deserializeUser,
+  requireUser,
+  deleteFeedbackHandler
+);
 router.get('/:id', getFeedbackByIdHandler);
 router.get('/', getAllFeedbackHandler);
 
