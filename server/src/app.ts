@@ -8,7 +8,8 @@ import { PrismaClient } from '@prisma/client';
 import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
 import feedbackRouter from './routes/feedback.routes';
-import categoriesRouter from './routes/category.routes';
+import categoryRouter from './routes/category.routes';
+import upvoteRouter from './routes/upvote.routes';
 import AppError from './utils/appError';
 import validateEnv from './utils/validateEnv';
 
@@ -47,7 +48,8 @@ async function bootstrap() {
   app.use('/api/auth', authRouter);
   app.use('/api/users', userRouter);
   app.use('/api/feedback', feedbackRouter);
-  app.use('/api/category', categoriesRouter);
+  app.use('/api/category', categoryRouter);
+  app.use('/api/upvote', upvoteRouter);
 
   // Testing
   app.get('/api/healthchecker', (_, res: Response) => {
