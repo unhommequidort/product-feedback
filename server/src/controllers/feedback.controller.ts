@@ -7,6 +7,7 @@ import {
   createFeedback,
   deleteFeedback,
   getAllFeedback,
+  getFeedbackByCategory,
   getFeedbackById,
   getFeedbackByStatus,
   updateFeedback,
@@ -89,6 +90,24 @@ export const getFeedbackByStatusHandler = async (
   try {
     const status = req.query.s;
     const feedbacks = await getFeedbackByStatus(status);
+
+    res.status(200).json({
+      status: 'success',
+      data: feedbacks,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getFeedbackByCategoryHandler = async (
+  req: Request<{}, {}, {}, { c: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const category = req.query.c;
+    const feedbacks = await getFeedbackByCategory(category);
 
     res.status(200).json({
       status: 'success',
