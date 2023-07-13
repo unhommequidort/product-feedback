@@ -11,6 +11,7 @@ import feedbackRouter from './routes/feedback.routes';
 import categoryRouter from './routes/category.routes';
 import statusRouter from './routes/status.routes';
 import upvoteRouter from './routes/upvote.routes';
+import commentRouter from './routes/comment.routes';
 import AppError from './utils/appError';
 import validateEnv from './utils/validateEnv';
 
@@ -52,6 +53,7 @@ async function bootstrap() {
   app.use('/api/category', categoryRouter);
   app.use('/api/upvote', upvoteRouter);
   app.use('/api/status', statusRouter);
+  app.use('/api/comment', commentRouter);
 
   // Testing
   app.get('/api/healthchecker', (_, res: Response) => {
