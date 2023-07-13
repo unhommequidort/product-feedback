@@ -24,7 +24,7 @@ model Comment {
   createdBy     String    @map("created_by") @db.Uuid
   feedbackId    String    @map("feedback_id") @db.Uuid
   parentId      String?   @db.Uuid
-  user          User      @relation(fields: [createdBy], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user          User      @relation(fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
   feedback      Feedback  @relation(fields: [feedbackId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   comment       Comment?  @relation("commentTocomment", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   other_comment Comment[] @relation("commentTocomment")
@@ -43,7 +43,7 @@ model Feedback {
   status                               String    @default("Suggestion") @db.VarChar(30)
   comment                              Comment[]
   category_feedback_categoryTocategory Category  @relation("feedback_categoryTocategory", fields: [category], references: [name], onDelete: NoAction, onUpdate: NoAction)
-  user                                 User      @relation(fields: [createdBy], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user                                 User      @relation(fields: [createdBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
   status_feedback_statusTostatus       Status    @relation("feedback_statusTostatus", fields: [status], references: [name], onDelete: NoAction, onUpdate: NoAction)
   upvote                               Upvote[]
 
@@ -62,8 +62,8 @@ model Upvote {
   userId     String   @map("user_id") @db.Uuid
   feedbackId String   @map("feedback_id") @db.Uuid
   createdAt  DateTime @default(now()) @map("created_at")
-  feedback   Feedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  feedback   Feedback @relation(fields: [feedbackId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user       User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([userId, feedbackId])
   @@map("upvote")
