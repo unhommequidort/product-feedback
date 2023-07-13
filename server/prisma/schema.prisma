@@ -23,10 +23,10 @@ model Comment {
   body          String    @db.VarChar
   createdBy     String    @map("created_by") @db.Uuid
   feedbackId    String    @map("feedback_id") @db.Uuid
-  parentid      String?   @db.Uuid
+  parentId      String?   @db.Uuid
   user          User      @relation(fields: [createdBy], references: [id], onDelete: Cascade, onUpdate: NoAction)
   feedback      Feedback  @relation(fields: [feedbackId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  comment       Comment?  @relation("commentTocomment", fields: [parentid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  comment       Comment?  @relation("commentTocomment", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   other_comment Comment[] @relation("commentTocomment")
 
   @@map("comment")
