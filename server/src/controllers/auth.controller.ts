@@ -209,6 +209,7 @@ export const refreshAccessTokenHandler = async (
     res.status(200).json({
       status: 'success',
       access_token,
+      refresh_token: new_refresh_token,
     });
   } catch (error: unknown) {
     next(error);
