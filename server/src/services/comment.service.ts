@@ -1,6 +1,12 @@
-import { Comment, PrismaClient } from '@prisma/client';
+import { Comment, Prisma, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+
+export const createComment = async (input: Prisma.CommentCreateInput) => {
+  return await prisma.comment.create({
+    data: input,
+  });
+};
 
 export const getCommentsByFeedbackId = async (feedbackId: string) => {
   return (await prisma.comment.findMany({
