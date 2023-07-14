@@ -143,6 +143,7 @@ export const loginUserHandler = async (
     res.status(200).json({
       status: 'success',
       access_token,
+      refresh_token,
     });
   } catch (err: any) {
     next(err);
@@ -194,12 +195,15 @@ export const refreshAccessTokenHandler = async (
       expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
     });
 
+    const { refresh_token: new_refresh_token } = await signTokens(user);
+
     // Add cookies
     res.cookie('access_token', access_token, accessTokenCookieOptions);
     res.cookie('logged_in', true, {
       ...accessTokenCookieOptions,
       httpOnly: false,
     });
+    res.cookie('refresh_token', new_refresh_token, refreshTokenCookieOptions);
 
     // Send the response
     res.status(200).json({
