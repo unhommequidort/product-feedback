@@ -1,5 +1,4 @@
 import { Category, PrismaClient } from '@prisma/client';
-import { orderBy } from 'lodash';
 
 const prisma = new PrismaClient();
 

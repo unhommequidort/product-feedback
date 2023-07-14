@@ -31,9 +31,6 @@ export const createCommentHandler = async (
       },
     });
 
-    console.log(comment);
-    // const comment = await createComment(body);
-
     res.status(201).json({
       status: 'success',
       data: comment,

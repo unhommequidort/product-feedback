@@ -66,7 +66,7 @@ async function bootstrap() {
   // UNHANDLED ROUTES
   app.all(
     '*',
-    (error: AppError, req: Request, res: Response, next: NextFunction) => {
+    (error: AppError, _req: Request, res: Response, next: NextFunction) => {
       error.status = error.status || 'error';
       error.statusCode = error.statusCode || 500;
 
