@@ -16,6 +16,14 @@ export const getCommentsByFeedbackId = async (feedbackId: string) => {
     orderBy: {
       createdAt: 'desc',
     },
+    include: {
+      user: {
+        select: {
+          username: true,
+          id: true,
+        },
+      },
+    },
   })) as Comment[];
 };
 
