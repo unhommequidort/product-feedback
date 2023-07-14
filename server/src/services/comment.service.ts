@@ -19,32 +19,6 @@ export const getCommentsByFeedbackId = async (feedbackId: string) => {
   })) as Comment[];
 };
 
-// export const getNestedCommentsByFeedbackId = async (feedbackId: string) => {
-//   const comments = await getCommentsByFeedbackId(feedbackId);
-//   const nestedComments = comments.filter(
-//     (comment) => comment.parentId !== null
-//   );
-//   const nestedCommentsWithParent = nestedComments.map((nestedComment) => {
-//     const parent = comments.find(
-//       (comment) => comment.id === nestedComment.parentId
-//     );
-//     return {
-//       ...nestedComment,
-//       parent,
-//     };
-//   });
-//   const rootComments = comments.filter((comment) => comment.parentId === null);
-//   return rootComments.map((rootComment) => {
-//     const nestedComments = nestedCommentsWithParent.filter(
-//       (nestedComment) => nestedComment.parentId === rootComment.id
-//     );
-//     return {
-//       ...rootComment,
-//       nestedComments,
-//     };
-//   }) as Comment[];
-// };
-
 const getRecursivelyNestedComments = (comments: Comment[]) => {
   return comments.map((comment): any => {
     const nestedComments = comments.filter(
