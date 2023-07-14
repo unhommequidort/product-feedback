@@ -12,7 +12,6 @@ import {
   getFeedbackByStatus,
   updateFeedback,
 } from '../services/feedback.service';
-import { orderBy } from 'lodash';
 
 export const createFeedbackHandler = async (
   req: Request<{}, {}, createFeedbackInput>,

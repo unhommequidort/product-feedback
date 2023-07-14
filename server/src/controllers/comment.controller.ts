@@ -1,5 +1,47 @@
 import { Request, Response, NextFunction } from 'express';
-import { getRecursivelyNestedCommentsByFeedbackId } from '../services/comment.service';
+import {
+  createComment,
+  getRecursivelyNestedCommentsByFeedbackId,
+} from '../services/comment.service';
+import { createCommentInput } from '../schemas/comment.schema';
+
+export const createCommentHandler = async (
+  req: Request<{}, {}, createCommentInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { body, feedbackId, parentId } = req.body;
+    const comment = await createComment({
+      body,
+      feedback: {
+        connect: {
+          id: feedbackId,
+        },
+      },
+      user: {
+        connect: {
+          id: res.locals.user.id,
+        },
+      },
+      comment: {
+        connect: {
+          id: parentId,
+        },
+      },
+    });
+
+    console.log(comment);
+    // const comment = await createComment(body);
+
+    res.status(201).json({
+      status: 'success',
+      data: comment,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const getRecursivelyNestedCommentsByFeedbackIdHandler = async (
   req: Request<{ id: string }>,
