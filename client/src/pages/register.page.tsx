@@ -37,6 +37,7 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   const {
+    register,
     reset,
     handleSubmit,
     formState: { isSubmitSuccessful },
@@ -77,17 +78,21 @@ const RegisterPage = () => {
   };
 
   return (
-    <form {...methods} onSubmit={() => handleSubmit(onSubmitHandler)}>
+    <form onSubmit={handleSubmit(onSubmitHandler)}>
       <label htmlFor="name">Name</label>
-      <input name="name" />
+      <input {...register('name')} name="name" type="text" />
       <label htmlFor="username">Username</label>
-      <input name="username" />
+      <input {...register('username')} name="username" type="text" />
       <label htmlFor="email">Email address</label>
-      <input name="email" type="email" />
+      <input {...register('email')} name="email" type="email" />
       <label htmlFor="password">Password</label>
-      <input name="password" type="password" />
+      <input {...register('password')} name="password" type="password" />
       <label htmlFor="passwordConfirm">Confirm Password</label>
-      <input name="passwordConfirm" type="password" />
+      <input
+        {...register('passwordConfirm')}
+        name="passwordConfirm"
+        type="password"
+      />
       <p>
         Already have an account? <Link to="/login">Log in here</Link>
       </p>

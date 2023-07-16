@@ -6,11 +6,18 @@ import { Prisma } from '@prisma/client';
 
 // SMTP configuration
 const smtp = config.get<{
-  host: string;
-  port: number;
   user: string;
   pass: string;
+  service: string;
 }>('smtp');
+
+// const smtp = config.get<{
+//   host: string;
+//   port: number;
+//   user: string;
+//   pass: string;
+//   service: string;
+// }>('smtp1');
 
 export default class Email {
   #firstName: string;

@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setUser } from '../features/userSlice';
 import { IUser } from './types';
 
-const BASE_URL = process.env.REACT_APP_SERVER_ENPOINT as string;
+const BASE_URL = import.meta.env.VITE_SERVER_ENDPOINT as string;
 
 export const userApi = createApi({
   reducerPath: 'userApi',
