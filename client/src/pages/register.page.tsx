@@ -62,21 +62,22 @@ const RegisterPage = () => {
         });
       }
     }
-  }, [isLoading]);
+  }, [error, isError, isLoading, isSuccess, navigate]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
     }
-  }, [isSubmitSuccessful]);
+  }, [isSubmitSuccessful, reset]);
 
-  const onSubmitHandler: SubmitHandler<RegisterInput> = (values) => {
+  const onSubmitHandler: SubmitHandler<RegisterInput> = async (values) => {
     // ? Calling the RegisterUser Mutation
-    registerUser(values);
+    // registerUser(values);
+    await registerUser(values);
   };
 
   return (
-    <form {...methods} onSubmit={handleSubmit(onSubmitHandler)}>
+    <form {...methods} onSubmit={() => handleSubmit(onSubmitHandler)}>
       <label htmlFor="name">Name</label>
       <input name="name" />
       <label htmlFor="username">Username</label>

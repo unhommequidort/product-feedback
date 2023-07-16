@@ -25,10 +25,16 @@ const LoginPage = () => {
   const [loginUser, { isLoading, isSuccess, error, isError }] =
     useLoginUserMutation();
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  type LocationProps = {
+    state: {
+      from: Location;
+    };
+  };
 
-  const from = ((location.state as any)?.from.pathname as string) || '/';
+  const navigate = useNavigate();
+  const location = useLocation() as unknown as LocationProps;
+
+  const from = location.state?.from.pathname || '/';
 
   const {
     reset,
@@ -55,21 +61,21 @@ const LoginPage = () => {
         });
       }
     }
-  }, [isLoading]);
+  }, [error, from, isError, isLoading, isSuccess, navigate]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
     }
-  }, [isSubmitSuccessful]);
+  }, [isSubmitSuccessful, reset]);
 
-  const onSubmitHandler: SubmitHandler<LoginInput> = (values) => {
+  const onSubmitHandler: SubmitHandler<LoginInput> = async (values) => {
     // ? Calling the RegisterUser Mutation
-    loginUser(values);
+    await loginUser(values);
   };
 
   return (
-    <form {...methods} onSubmit={handleSubmit(onSubmitHandler)}>
+    <form {...methods} onSubmit={() => handleSubmit(onSubmitHandler)}>
       <label htmlFor="email">Email address</label>
       <input name="email" type="email" />
       <label htmlFor="password">Password</label>
