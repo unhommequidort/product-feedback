@@ -72,7 +72,7 @@ const EmailVerificationPage = () => {
   };
 
   return (
-    <form {...methods} onSubmit={handleSubmit(onSubmitHandler)}>
+    <form onSubmit={handleSubmit(onSubmitHandler)}>
       <label htmlFor="verificationCode">Verification code</label>
       <input
         {...register('verificationCode')}
