@@ -26,6 +26,7 @@ const EmailVerificationPage = () => {
   const navigate = useNavigate();
 
   const {
+    register,
     reset,
     handleSubmit,
     formState: { isSubmitSuccessful },
@@ -71,9 +72,14 @@ const EmailVerificationPage = () => {
   };
 
   return (
-    <form {...methods} onSubmit={() => handleSubmit(onSubmitHandler)}>
+    <form {...methods} onSubmit={handleSubmit(onSubmitHandler)}>
       <label htmlFor="verificationCode">Verification code</label>
-      <input name="verificationCode" type="text" />
+      <input
+        {...register('verificationCode')}
+        defaultValue={verificationCode}
+        name="verificationCode"
+        type="text"
+      />
       <button type="submit">Verify email</button>
     </form>
   );

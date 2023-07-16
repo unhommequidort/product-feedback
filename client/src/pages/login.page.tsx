@@ -37,6 +37,7 @@ const LoginPage = () => {
   const from = location.state?.from.pathname || '/';
 
   const {
+    register,
     reset,
     handleSubmit,
     formState: { isSubmitSuccessful },
@@ -75,13 +76,13 @@ const LoginPage = () => {
   };
 
   return (
-    <form {...methods} onSubmit={() => handleSubmit(onSubmitHandler)}>
+    <form onSubmit={handleSubmit(onSubmitHandler)}>
       <label htmlFor="email">Email address</label>
-      <input name="email" type="email" />
+      <input {...register('email')} name="email" type="email" />
       <label htmlFor="password">Password</label>
-      <input name="password" type="password" />
+      <input {...register('password')} name="password" type="password" />
       <p>
-        Need an account? <Link to="/regiser">Sign up here</Link>
+        Need an account? <Link to="/register">Sign up here</Link>
       </p>
       <button type="submit">Log in</button>
     </form>
