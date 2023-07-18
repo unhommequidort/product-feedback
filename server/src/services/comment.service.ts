@@ -1,6 +1,5 @@
-import { Comment, Prisma, PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { Comment, Prisma } from '@prisma/client';
+import prisma from '../libs/prisma';
 
 export const createComment = async (input: Prisma.CommentCreateInput) => {
   return await prisma.comment.create({

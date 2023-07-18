@@ -1,5 +1,4 @@
-import { PrismaClient, User } from '@prisma/client';
-const prisma = new PrismaClient();
+import prisma from '../src/libs/prisma';
 
 async function seed() {
   // await prisma.role.deleteMany();

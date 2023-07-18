@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma, User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import config from 'config';
 import { signJwt } from '../utils/jwt';
 import redisClient from '../utils/connectRedis';
@@ -10,8 +10,7 @@ export const excludedFields = [
   'passwordResetAt',
   'passwordResetToken',
 ];
-
-const prisma = new PrismaClient();
+import prisma from '../libs/prisma';
 
 export const createUser = async (input: Prisma.UserCreateInput) => {
   return (await prisma.user.create({
@@ -37,7 +36,7 @@ export const findUniqueUser = async (
 };
 
 export const updateUser = async (
-  where: Partial<Prisma.UserWhereUniqueInput>,
+  where: Prisma.UserWhereUniqueInput,
   data: Prisma.UserUpdateInput,
   select?: Prisma.UserSelect
 ) => {

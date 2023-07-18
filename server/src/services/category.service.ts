@@ -1,6 +1,6 @@
-import { Category, PrismaClient } from '@prisma/client';
+import { Category } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import prisma from '../libs/prisma';
 
 export const getAllCategories = async () => {
   return (await prisma.category.findMany({

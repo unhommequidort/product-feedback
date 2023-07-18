@@ -1,6 +1,5 @@
-import { Upvote, PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { Upvote } from '@prisma/client';
+import prisma from '../libs/prisma';
 
 export const getUpvoteCountByFeedbackId = async (feedbackId: string) => {
   return (await prisma.upvote.count({

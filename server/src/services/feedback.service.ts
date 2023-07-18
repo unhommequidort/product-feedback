@@ -1,6 +1,6 @@
-import { Feedback, Prisma, PrismaClient } from '@prisma/client';
+import { Feedback, Prisma } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import prisma from '../libs/prisma';
 
 export const createFeedback = async (input: Prisma.FeedbackCreateInput) => {
   return (await prisma.feedback.create({
