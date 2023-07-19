@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,15 +9,6 @@
 
 :root {
   /* colors */
-  --clr-purple: hsla(282, 83%, 52%, 1);
-  --clr-royal-blue: hsla(230, 76%, 59%, 1);
-  --clr-american-blue: hsla(230, 31%, 31%, 1);
-  --clr-alice-blue: hsla(231, 100%, 97%, 1);
-  --clr-ghost-white: hsla(230, 60%, 98%, 1);
-  --clr-east-bay-blue: hsla(231, 33%, 34%, 1);
-  --clr-dark-blue-gray: hsla(224, 20%, 49%, 1);
-  --clr-tangerine: hsla(14, 83%, 74%, 1);
-  --clr-may-blue: hsla(204, 94%, 68%, 1);
 }
 
 /* ---------------------------- */

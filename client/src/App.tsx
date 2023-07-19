@@ -1,15 +1,17 @@
 import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+
 import Layout from './components/layout';
-import ProfilePage from './pages/profile.page';
+import RequireUser from './components/requireUser';
+import AdminPage from './pages/admin.page';
 import HomePage from './pages/home.page';
 import LoginPage from './pages/login.page';
+import ProfilePage from './pages/profile.page';
 import RegisterPage from './pages/register.page';
 import UnauthorizePage from './pages/unauthorized.page';
-import RequireUser from './components/requireUser';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import AdminPage from './pages/admin.page';
 import EmailVerificationPage from './pages/verifyemail.page';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
