@@ -1,9 +1,9 @@
 import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
-import { ReactComponent as Checkmark } from '../../../../assets/checkmark.svg';
-import { ReactComponent as ArrowDown } from '../../../../assets/down_arrow.svg';
-import { ReactComponent as ArrowUp } from '../../../../assets/up_arrow.svg';
+import { ReactComponent as Checkmark } from '@/assets/checkmark.svg';
+import { ReactComponent as ArrowDown } from '@/assets/down_arrow.svg';
+import { ReactComponent as ArrowUp } from '@/assets/up_arrow.svg';
 
 interface MenuItemProps {
   item: string;
