@@ -2,7 +2,7 @@ import React from 'react';
 import type { VariantProps } from 'class-variance-authority';
 import { cva } from 'class-variance-authority';
 
-import { ReactComponent as ArrowLeft } from '../../../../assets/back_arrow.svg';
+import { ReactComponent as ArrowLeft } from '@/assets/back_arrow.svg';
 
 const backButton = cva(
   'w-[9.875rem] h-[3.3125rem] flex justify-center items-center gap-[0.9794rem]  text-sm  font-bold hover:underline transition-all duration-200 ease-in-out border-none',

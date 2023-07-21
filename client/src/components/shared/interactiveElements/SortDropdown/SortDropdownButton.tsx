@@ -1,14 +1,9 @@
 import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
-import { ReactComponent as Checkmark } from '../../../../assets/checkmark.svg';
-import { ReactComponent as ArrowDown } from '../../../../assets/down_arrow.svg';
-import { ReactComponent as ArrowUp } from '../../../../assets/up_arrow.svg';
-
-export interface SortDropdownButtonProps
-  extends React.HTMLAttributes<HTMLButtonElement> {
-  handleOptionClick: () => void;
-}
+import { ReactComponent as Checkmark } from '@/assets/checkmark.svg';
+import { ReactComponent as ArrowDown } from '@/assets/down_arrow.svg';
+import { ReactComponent as ArrowUp } from '@/assets/up_arrow.svg';
 
 interface MenuItemProps {
   item: string;
@@ -35,6 +30,11 @@ const MenuItem = ({ item, setSortBy, sortBy }: MenuItemProps) => (
     }}
   </Menu.Item>
 );
+
+interface SortDropdownButtonProps
+  extends React.HTMLAttributes<HTMLButtonElement> {
+  handleOptionClick: () => void;
+}
 
 export const SortDropdownButton = ({ ...props }: SortDropdownButtonProps) => {
   const [sortBy, setSortBy] = useState('Most Upvotes');
