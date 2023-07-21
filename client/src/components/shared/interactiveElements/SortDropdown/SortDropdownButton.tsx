@@ -49,7 +49,7 @@ export const SortDropdownButton = ({ ...props }: SortDropdownButtonProps) => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="w-[15.9375rem] divide-y divide-opacity-20 focus:outline-none divide-slate-600 h-48 shadow-2xl mt-4 flex flex-col rounded-[0.625rem]">
+            <Menu.Items className="w-[15.9375rem] divide-y divide-opacity-20 focus:outline-none divide-slate-600 h-48 shadow-xl mt-4 flex flex-col rounded-[0.625rem] text-slate-500">
               {[
                 'Most Upvotes',
                 'Least Upvotes',
@@ -57,21 +57,21 @@ export const SortDropdownButton = ({ ...props }: SortDropdownButtonProps) => {
                 'Least Comments',
               ].map((item) => (
                 <Menu.Item key={item}>
-                  {({ active }) => (
-                    <button
-                      className={`font-normal flex items-center justify-between px-4 py-2 text-md  h-[2.9375rem] text-left ${
-                        active ? 'text-fuchsia-600' : 'text-slate-500'
-                      } ${
-                        sortBy === item ? 'text-fuchsia-600' : 'text-slate-500'
-                      }`}
-                      onClick={() => {
-                        setSortBy(item);
-                      }}
-                    >
-                      <span>{item}</span>
-                      {sortBy === item ? <Checkmark /> : null}
-                    </button>
-                  )}
+                  {({ active }) => {
+                    return (
+                      <button
+                        className={`font-normal flex items-center justify-between px-4 py-2 text-md  h-[2.9375rem] text-left ${
+                          active ? 'text-fuchsia-600' : ''
+                        }`}
+                        onClick={() => {
+                          setSortBy(item);
+                        }}
+                      >
+                        <span>{item}</span>
+                        {sortBy === item ? <Checkmark /> : null}
+                      </button>
+                    );
+                  }}
                 </Menu.Item>
               ))}
             </Menu.Items>
