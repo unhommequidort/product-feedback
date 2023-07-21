@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority';
 
 import { ReactComponent as ArrowLeft } from '../../../../assets/back_arrow.svg';
 
-const iconButton = cva(
+const backButton = cva(
   'w-[9.875rem] h-[3.3125rem] flex justify-center items-center gap-[0.9794rem]  text-sm font-bold hover:underline transition-all duration-200 ease-in-out border-none',
   {
     variants: {
@@ -19,17 +19,17 @@ const iconButton = cva(
   }
 );
 
-export interface IconButtonProps
+export interface BackButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof iconButton> {}
+    VariantProps<typeof backButton> {}
 
-export const IconButton = ({
+export const BackButton = ({
   className,
   intent,
   children,
   ...props
-}: IconButtonProps) => (
-  <button className={iconButton({ className, intent })} {...props}>
+}: BackButtonProps) => (
+  <button className={backButton({ className, intent })} {...props}>
     <ArrowLeft /> {children}
   </button>
 );
