@@ -92,11 +92,11 @@ export const registerUserHandler = async (
       if (err.code === 'P2002') {
         return res.status(409).json({
           status: 'fail',
-          message: 'Email already exist, please use another email address',
+          message: 'Email already in use, please use another email address',
         });
       }
     }
-    next(err);
+    return res.status(err.statusCode).json(err);
   }
 };
 
@@ -114,21 +114,25 @@ export const loginUserHandler = async (
     );
 
     if (!user) {
-      return next(new AppError(400, 'Invalid email or password'));
+      // return next(
+      throw new AppError(400, 'Invalid email or password');
+      // );
     }
 
     // Check if user is verified
     if (!user.verified) {
-      return next(
-        new AppError(
-          401,
-          'You are not verified, please verify your email to login'
-        )
+      // return next(
+      throw new AppError(
+        401,
+        'You are not verified, please verify your email to login'
       );
+      // );
     }
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return next(new AppError(400, 'Invalid email or password'));
+      // return next(
+      throw new AppError(400, 'Invalid email or password');
+      // );
     }
 
     // Sign Tokens
@@ -146,7 +150,7 @@ export const loginUserHandler = async (
       refresh_token,
     });
   } catch (err: any) {
-    next(err);
+    return res.status(err.statusCode).json(err);
   }
 };
 
@@ -161,7 +165,7 @@ export const refreshAccessTokenHandler = async (
     const message = 'Could not refresh access token';
 
     if (!refresh_token) {
-      return next(new AppError(403, message));
+      throw new AppError(403, message);
     }
 
     // Validate refresh token
@@ -171,14 +175,14 @@ export const refreshAccessTokenHandler = async (
     );
 
     if (!decoded) {
-      return next(new AppError(403, message));
+      throw new AppError(403, message);
     }
 
     // Check if user has a valid session
     const session = await redisClient.get(decoded.sub);
 
     if (!session) {
-      return next(new AppError(403, message));
+      throw new AppError(403, message);
     }
 
     // Check if user exists
@@ -187,7 +191,7 @@ export const refreshAccessTokenHandler = async (
     });
 
     if (!user) {
-      return next(new AppError(403, message));
+      throw new AppError(403, message);
     }
 
     // Sign new access token
@@ -211,8 +215,8 @@ export const refreshAccessTokenHandler = async (
       access_token,
       refresh_token: new_refresh_token,
     });
-  } catch (error: unknown) {
-    next(error);
+  } catch (error: any) {
+    return res.status(error.statusCode).json(error);
   }
 };
 
@@ -234,8 +238,8 @@ export const logoutUserHandler = async (
     res.status(200).json({
       status: 'success',
     });
-  } catch (error) {
-    next(error);
+  } catch (error: any) {
+    return res.status(error.statusCode).json(error);
   }
 };
 
@@ -346,7 +350,7 @@ export const forgotPasswordHandler = async (
       });
     }
   } catch (err: any) {
-    next(err);
+    return res.status(err.statusCode).json(err);
   }
 };
 
@@ -400,6 +404,6 @@ export const resetPasswordHandler = async (
       message: 'Password updated successfully',
     });
   } catch (err: any) {
-    next(err);
+    return res.status(err.statusCode).json(err);
   }
 };
