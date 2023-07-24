@@ -1,9 +1,10 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { TypeOf, object, string } from 'zod';
 import { toast } from 'react-toastify';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { object, string, TypeOf } from 'zod';
+
 import { useLoginUserMutation } from '../redux/api/authApi';
 
 const loginSchema = object({
@@ -52,14 +53,17 @@ const LoginPage = () => {
     if (isError) {
       if (Array.isArray((error as any).data.error)) {
         (error as any).data.error.forEach((el: any) => {
-          toast.error(el.message, {
+          toast.error(el.errorMessage || el.message, {
             position: 'top-right',
           });
         });
       } else {
-        toast.error((error as any).data.message, {
-          position: 'top-right',
-        });
+        toast.error(
+          (error as any).data.errorMessage || (error as any).data.message,
+          {
+            position: 'top-right',
+          }
+        );
       }
     }
   }, [error, from, isError, isLoading, isSuccess, navigate]);
