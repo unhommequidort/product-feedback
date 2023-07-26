@@ -34,6 +34,7 @@ const MenuItem = ({ item, setSortBy, sortBy }: MenuItemProps) => (
 interface SortDropdownButtonProps
   extends React.HTMLAttributes<HTMLButtonElement> {
   handleOptionClick: () => void;
+  items: string[];
 }
 
 export const SortDropdownButton = ({ ...props }: SortDropdownButtonProps) => {
@@ -76,12 +77,7 @@ export const SortDropdownButton = ({ ...props }: SortDropdownButtonProps) => {
             leaveTo="transform opacity-0 scale-95"
           >
             <Menu.Items className="w-[15.9375rem] divide-y divide-opacity-20 focus:outline-none divide-slate-600 h-48 shadow-xl mt-4 flex flex-col rounded-[0.625rem] text-slate-500">
-              {[
-                'Most Upvotes',
-                'Least Upvotes',
-                'Most Comments',
-                'Least Comments',
-              ].map((item) => (
+              {props.items.map((item) => (
                 <MenuItem item={item} setSortBy={setSortBy} sortBy={sortBy} />
               ))}
             </Menu.Items>
