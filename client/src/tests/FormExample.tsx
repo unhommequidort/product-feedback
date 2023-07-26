@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form';
 
-import FormInput from '@/components/shared/formElements/FormInput';
+import FormInput from '@/components/shared/formElements/FormInput/FormInput';
 
 const FormExample = () => {
   const methods = useForm();

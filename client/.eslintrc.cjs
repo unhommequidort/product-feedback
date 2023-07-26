@@ -38,6 +38,14 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
+    '@typescript-eslint/no-misused-promises': [
+      2,
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
   },
   overrides: [
     {
