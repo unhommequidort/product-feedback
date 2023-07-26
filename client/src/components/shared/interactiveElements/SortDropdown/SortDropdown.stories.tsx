@@ -11,4 +11,8 @@ export default meta;
 
 type Story = StoryObj<typeof SortDropdownButton>;
 
-export const Primary: Story = {};
+export const Primary: Story = {
+  args: {
+    items: ['Most Upvotes', 'Least Upvotes', 'Most comments', 'Least Comments'],
+  },
+};
