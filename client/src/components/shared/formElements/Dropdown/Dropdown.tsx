@@ -76,7 +76,11 @@ export const Dropdown = ({ ...props }: DropdownProps) => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="w-[15.9375rem] h-60 divide-y divide-opacity-20 focus:outline-none divide-slate-600 shadow-xl mt-4 flex flex-col rounded-[0.625rem] text-slate-500">
+            <Menu.Items
+              className={`h-60 divide-y divide-opacity-20 focus:outline-none divide-slate-600 shadow-xl mt-4 flex flex-col rounded-[0.625rem] text-slate-500 ${
+                props.width || 'w-full'
+              }`}
+            >
               {props.items.map((item) => (
                 <MenuItem item={item} setSortBy={setSortBy} sortBy={sortBy} />
               ))}
