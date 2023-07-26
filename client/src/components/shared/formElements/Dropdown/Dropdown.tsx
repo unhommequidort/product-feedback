@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react';
+import React from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
 import { ReactComponent as Checkmark } from '@/assets/checkmark.svg';
@@ -31,13 +32,13 @@ const MenuItem = ({ item, setSortBy, sortBy }: MenuItemProps) => (
   </Menu.Item>
 );
 
-interface SortDropdownButtonProps
-  extends React.HTMLAttributes<HTMLButtonElement> {
+interface DropdownProps extends React.HTMLAttributes<HTMLButtonElement> {
   handleOptionClick: () => void;
   items: string[];
+  width?: string;
 }
 
-export const SortDropdownButton = ({ ...props }: SortDropdownButtonProps) => {
+export const Dropdown = ({ ...props }: DropdownProps) => {
   const [sortBy, setSortBy] = useState(props.items?.[0] || '');
 
   return (
@@ -45,26 +46,25 @@ export const SortDropdownButton = ({ ...props }: SortDropdownButtonProps) => {
       {({ open }) => (
         <>
           <Menu.Button
-            className={`w-[12.125rem] h-[4.5rem] bg-slate-700 rounded-[0.625rem] text-violet-50 text-sm font-bold text-center transition-colors duration-200 ease-in-out focus:outline-fuchsia-700 focus:outline-2 ${
-              open ? 'text-opacity-75' : ''
+            className={`bg-slate-50 rounded-[0.3125rem] flex flex-row justify-between items-center focus:outline-indigo-600 focus:outline focus:outline-1 focus:border-indigo-600 py-[0.8125rem] px-6 ${
+              props.width || 'w-full'
             }`}
             {...props}
           >
-            <div>
-              <span className="text-sm font-normal">Sort by : </span>
-              <span className="text-sm font-bold">{sortBy}</span>
-              {open ? (
-                <ArrowUp
-                  aria-hidden="true"
-                  className="inline-block ml-2 text-white"
-                />
-              ) : (
-                <ArrowDown
-                  aria-hidden="true"
-                  className="inline-block ml-2 text-white"
-                />
-              )}
-            </div>
+            <span className="text-slate-600 text-[15px] font-normal">
+              {sortBy}
+            </span>
+            {open ? (
+              <ArrowUp
+                aria-hidden="true"
+                className="inline-block ml-2 text-indigo-600"
+              />
+            ) : (
+              <ArrowDown
+                aria-hidden="true"
+                className="inline-block ml-2 text-indigo-600"
+              />
+            )}
           </Menu.Button>
 
           <Transition
@@ -76,7 +76,7 @@ export const SortDropdownButton = ({ ...props }: SortDropdownButtonProps) => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="w-[15.9375rem] divide-y divide-opacity-20 focus:outline-none divide-slate-600 h-48 shadow-xl mt-4 flex flex-col rounded-[0.625rem] text-slate-500">
+            <Menu.Items className="w-[15.9375rem] h-60 divide-y divide-opacity-20 focus:outline-none divide-slate-600 shadow-xl mt-4 flex flex-col rounded-[0.625rem] text-slate-500">
               {props.items.map((item) => (
                 <MenuItem item={item} setSortBy={setSortBy} sortBy={sortBy} />
               ))}
