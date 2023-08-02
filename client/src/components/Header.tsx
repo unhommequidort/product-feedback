@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router';
-import { useAppSelector } from '../redux/store';
-import { useLogoutUserMutation } from '../redux/api/authApi';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+
+import { useLogoutUserMutation } from '../redux/api/authApi';
+import { useAppSelector } from '../redux/store';
 
 const Header = () => {
   const navigate = useNavigate();
