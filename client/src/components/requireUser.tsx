@@ -1,10 +1,18 @@
 import { useCookies } from 'react-cookie';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { userApi } from '../redux/api/userApi';
-import FullScreenLoader from './FullScreenLoader';
-import { IUser } from '../redux/api/types';
+import { Navigate, useLocation } from 'react-router-dom';
 
-const RequireUser = ({ allowedRoles }: { allowedRoles: string[] }) => {
+import { IUser } from '../redux/api/types';
+import { userApi } from '../redux/api/userApi';
+
+import FullScreenLoader from './FullScreenLoader';
+
+const RequireUser = ({
+  allowedRoles,
+  children,
+}: {
+  allowedRoles: string[];
+  children: React.ReactNode;
+}) => {
   const [cookies] = useCookies(['logged_in']);
   const location = useLocation();
 
@@ -25,7 +33,7 @@ const RequireUser = ({ allowedRoles }: { allowedRoles: string[] }) => {
 
   return (cookies.logged_in || user) &&
     allowedRoles.includes(user?.role as string) ? (
-    <Outlet />
+    <>{children}</>
   ) : cookies.logged_in && user ? (
     <Navigate to="/unauthorized" state={{ from: location }} replace />
   ) : (
