@@ -1,9 +1,10 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { TypeOf, object, string } from 'zod';
 import { toast } from 'react-toastify';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { object, string, TypeOf } from 'zod';
+
 import { useRegisterUserMutation } from '../redux/api/authApi';
 
 const registerSchema = object({

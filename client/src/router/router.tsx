@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import RequireUser from '@/components/requireUser';
 import AdminPage from '@/pages/admin.page';
+import ErrorPage from '@/pages/error.page';
 import HomePage from '@/pages/home.page';
 import LoginPage from '@/pages/login.page';
 import ProfilePage from '@/pages/profile.page';
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />,
+    errorElement: <ErrorPage />,
   },
   {
     path: '/register',
