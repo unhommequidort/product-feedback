@@ -7,8 +7,8 @@ export default function ErrorPage() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <div className="text-center" id="error-page">
-        <h1 className="opacity-95 text-slate-600 text-2xl font-bold">Oops!</h1>
-        <p className="mb-12 mt-4 text-slate-600 text-xl">
+        <h1 className="opacity-95 text-slate-600 text-3xl font-bold">Oops!</h1>
+        <p className="mb-12 mt-4 text-slate-600 text-2xl">
           Sorry, an unexpected error has occurred.
         </p>
         <p>
