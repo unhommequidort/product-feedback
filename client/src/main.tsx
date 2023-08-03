@@ -12,8 +12,10 @@ import './index.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <RouterProvider router={router} />
+      <div className="w-full h-screen bg-slate-50">
+        <ToastContainer />
+        <RouterProvider router={router} />
+      </div>
     </Provider>
   </React.StrictMode>
 );

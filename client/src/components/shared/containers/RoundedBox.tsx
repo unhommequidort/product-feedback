@@ -12,9 +12,7 @@ export const RoundedBox = ({
   className = '',
 }: RoundedBoxProps) => {
   return (
-    <div
-      className={clsx([width, ...className, 'bg-white', 'rounded-[0.625rem]'])}
-    >
+    <div className={clsx([width, className, 'bg-white', 'rounded-[0.625rem]'])}>
       {children}
     </div>
   );
