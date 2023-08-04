@@ -39,9 +39,9 @@ export const ChipBox = () => {
             return (
               <Skeleton
                 key={i}
-                containerClassName="flex-1 mb-0"
+                containerClassName="flex-1"
                 style={{ width }}
-                className="rounded-10px inline-block"
+                className="rounded-[10px] inline-block"
                 height={32}
               />
             );
