@@ -1,5 +1,6 @@
 import RoundedBox from '../shared/containers/RoundedBox';
-import { Chip } from '../shared/interactiveElements/Chip/Chip';
+
+import ChipBox from './ChipBox';
 
 export const Sidebar = () => {
   return (
@@ -11,14 +12,7 @@ export const Sidebar = () => {
             Feedback Board
           </h2>
         </RoundedBox>
-        <RoundedBox className="flex flex-wrap content-start gap-[14px] p-6 h-[11.6875rem] xl:h-[10.375rem]">
-          <Chip value="All" />
-          <Chip value="UI" />
-          <Chip value="UX" />
-          <Chip value="Enhancement" />
-          <Chip value="Bug" />
-          <Chip value="Feature" />
-        </RoundedBox>
+        <ChipBox />
         <RoundedBox className="p-6 h-[11.6875rem] xl:h-[11.125rem]">
           hello
         </RoundedBox>

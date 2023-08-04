@@ -19,3 +19,8 @@ export interface IGenericResponse {
   status: string;
   message: string;
 }
+
+export interface ICategory {
+  name: string;
+  sort: number;
+}
